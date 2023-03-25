@@ -1,6 +1,8 @@
 package com.yognirog.controller;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.Map;
 import java.util.Optional;
 
@@ -11,6 +13,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,6 +32,9 @@ import com.yognirog.repository.SchoolRepository;
 @RestController
 @RequestMapping("/schools")
 public class SchoolController {
+	
+    private static final Logger logger = LoggerFactory.getLogger(SchoolController.class);
+
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
@@ -39,17 +45,24 @@ public class SchoolController {
 		this.schoolRepository = schoolRepository;
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200/")
 	@PostMapping("/add")
 	public School addSchool(@RequestBody School school) {
+		 logger.debug("Debug message");
+	        logger.info("Info message");
+	        logger.warn("Warn message");
+	        logger.error("Error message");
 		return schoolRepository.insert(school);
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200/")
 	@GetMapping("/all")
 	public List<School> getAllSchools() {
 		List<School> list = schoolRepository.findAll();
 		return list;
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200/")
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<School>> getById(@PathVariable ObjectId id) {
 		Optional<School> existingSchool = schoolRepository.findById(id);
@@ -61,9 +74,14 @@ public class SchoolController {
 		}
 	}
 
-	@DeleteMapping("/{id}")
+	@CrossOrigin(origins = "http://localhost:4200/")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity deleteById(@PathVariable ObjectId id) {
 		Optional<School> existingSchool = schoolRepository.findById(id);
+		logger.debug("Debug message");
+        logger.info("Info message");
+        logger.warn("Warn message");
+        logger.error("Error message");
 		if (existingSchool.isPresent()) {
 			schoolRepository.delete(existingSchool.get());
 			return ResponseEntity.noContent().build();
@@ -72,7 +90,8 @@ public class SchoolController {
 		}
 	}
 
-	@PutMapping("/{id}")
+	@CrossOrigin(origins = "http://localhost:4200/")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<School> updateUser(@PathVariable String id, @RequestBody School updatedUser) {
 		Query query = new Query(Criteria.where("_id").is(id));
 		School school = mongoTemplate.findOne(query, School.class);
@@ -84,6 +103,7 @@ public class SchoolController {
 		return ResponseEntity.ok().body(school);
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200/")
 	@PatchMapping("/{id}")
 	public ResponseEntity<School> patchUser(@PathVariable String id, @RequestBody Map<String, Object> patchFields)
 			throws JsonMappingException {

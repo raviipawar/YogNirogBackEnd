@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--Import Google Icon Font-->
+
+    <link
+            crossorigin="anonymous"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            rel="stylesheet"
+    />
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <style>
+        @media (max-width: 575.98px) {
+            body {
+                height: 100vh;
+                position: relative;
+            }
+
+            body .login {
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        body {
+            height: 100vh;
+            position: relative;
+        }
+
+        body .login {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .paddingForInput {
+            padding: 5%;
+        }
+
+        .btn {
+            background-color: #488cff;
+        }
+
+        .card {
+            box-shadow: 5px 10px 18px #888888;
+        }
+
+        .login {
+            padding: 10%;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container-fluid login">
+    <div th:if="${param.error}">
+        <div class="alert alert-danger">
+            Invalid username and password.
+        </div>
+    </div>
+    <div class="card">
+        <div class="row">
+            <div class="col-sm col-md-6  d-none d-sm-block d-sm-none d-md-block">
+                <img
+                        height="100%"
+                        src="https://www.adorama.com/images/Large/bm531257.jpg" width="100%"
+                />
+            </div>
+
+            <div class="col-sm col-md-6 align-self-center">
+                <div class="d-flex justify-content-center paddingForInput">
+                    <img
+                            height="100px"
+                            src="https://www.adorama.com/images/Large/bm531257.jpg"
+                            width="100px"
+                    />
+                </div>
+
+                <form class="paddingForInput" method="post" th:action="@{/login}">
+                    <input
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}"
+                            type="hidden"/>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input
+                                aria-describedby="emailHelp"
+                                class="form-control"
+                                id="exampleInputEmail1"
+                                name="username"
+                                placeholder="Enter email"
+                                type="text"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input
+                                class="form-control"
+                                id="exampleInputPassword1"
+                                name="password"
+                                placeholder="Password"
+                                type="password"
+                        />
+                        <small class="form-text text-muted" id="passwordHelpBlock">
+                            Forgot Password? <a href=""><b>Reset</b></a>
+                        </small>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-primary" type="submit">
+                                Login
+                            </button>
+                            <p class="form-text text-muted">
+                                Don't have an Account? <a href=""><b>Register</b></a>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--JavaScript at end of body for optimized loading-->
+</body>
+</html>
